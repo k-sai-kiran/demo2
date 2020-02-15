@@ -1,0 +1,124 @@
+{% extends 'Feedback/base.html' %}
+{% block title %}
+Feedback
+{% endblock %}
+
+
+{% block body %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class= "d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Please Provide your feedback </h1>
+  <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
+    </div>
+    <!-- Content Row -->
+
+    <div class="row">
+      <!-- Area Chart -->
+      <div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Your feedback helps to improve our service</h6>
+
+            <div class="dropdown no-arrow">
+              <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">Dropdown Header:</div>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+          </div>
+          <!-- Card Body -->
+          {% load static %}
+          <br>
+          <div class="card-body">
+              <form  method="POST" class="user" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p style="color: red;">{{ field_error }}</p>
+                <p style="color: red;">{{ currentuser }}</p>
+                <strong>Self Or Family</strong>
+                <select id="id_sandf" name="sandf">
+                   <option value="Self">Self</option>
+                   <option value="Family">Family</option>
+                   
+                </select>
+                <br>
+                <br>
+                <strong>select Department</strong>
+                <select id="id_department" name="department">
+                   <option value="General">General</option>
+                   <option value="Cardiology">Cardiology</option>
+                   <option value="Orthology">Orthology</option>
+                   <option value="Neurology">Neurology</option>
+                   <option value="Opthomology">Opthomology</option>
+
+                </select>
+                <br>
+                <br>
+                <!--<a href="http://127.0.0.1:8000/Feedback/customeraudio">Record An Audio</a>-->
+
+                <label><input type="radio" id="id_Rating" name="Rating"  value="excellent" onchange="displaynext(this.value)"/>Excellent</label>
+                <br>
+                <label><input type="radio" id="id_Rating" name="Rating" value="good" onchange="displaynext(this.value)" />Good</label>
+                <br>
+                <label><input type="radio" id="id_Rating" name="Rating" value="good" onchange="displaynext(this.value)" />Average</label>
+                <br>
+                <label><input type="radio" id="id_Rating" name="Rating" value="good" onchange="displaynext(this.value)" />Bad</label>
+                <br>
+                <label><input type="radio" id="id_Rating" name="Rating" value="good" onchange="displaynext(this.value)" />Worst</label>
+                <br>
+
+               
+
+                <div id="goodsomething" style="display:none;">
+                  &nbsp;&nbsp;&nbsp;&nbsp;Please Specify the area where you faced the issue
+                  <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AreaofIssue" name="AreaofIssue"  value="1" />Hygiene</label>
+                  <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AreaofIssue" name="AreaofIssue"  value="2" />Doctor behavior</label>
+                  <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox"  id="id_AreaofIssue" name="AreaofIssue"  value="3" />Waiting Time</label>
+                  <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox"  id="id_AreaofIssue" name="AreaofIssue"  value="4" />Pharmacy</label>
+                  <br>
+                   &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AreaofIssue" name="AreaofIssue"  value="5" />Nurse</label>
+                  </div>
+                  <br>
+                  <label>Explanation</label>
+                  <br>
+                  <label><input type="text" id="id_explanation" name="explanation"  /></label>
+
+                   
+                 <br/><br/>
+                 <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                  Submit
+                </button>
+              
+              </form>
+          </div>
+          
+      </div>
+
+<script>
+   function displaynext(answer)
+  {
+
+  document.getElementById(answer + 'something').style.display = "block";
+    if (answer == "excellent")
+    { 
+      document.getElementById('good').style.display = "none";
+    }  
+  }
+
+  
+  
+</script>      
+{% endblock %}

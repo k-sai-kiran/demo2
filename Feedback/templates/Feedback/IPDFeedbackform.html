@@ -1,0 +1,203 @@
+{% extends 'Feedback/base.html' %}
+{% block title %}
+Feedback
+{% endblock %}
+
+
+{% block body %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class= "d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Please Provide your feedback </h1>
+  <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
+    </div>
+    <!-- Content Row -->
+
+    <div class="row">
+      <!-- Area Chart -->
+      <div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Your feedback helps to improve our service</h6>
+
+            <div class="dropdown no-arrow">
+              <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">Dropdown Header:</div>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+          </div>
+          <!-- Card Body -->
+          {% load static %}
+          <br>
+          <div class="card-body">
+              <form  method="POST" class="user" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p style="color: red;">{{ field_error }}</p>
+                <p style="color: red;">{{ currentuser }}</p>
+
+                <label><input type="radio" id="id_Rating" name="Rating"  value="excellent" onchange="displaynext(this.value)"/>Excellent</label>
+                <br>
+                <label><input type="radio" id="id_Rating" name="Rating" value="good" onchange="displaynext(this.value)" />Good</label>
+                <br>
+                <label><input type="radio" id="id_Rating" name="Rating" value="good" onchange="displaynext(this.value)" />Average</label>
+                <br>
+                <label><input type="radio" id="id_Rating" name="Rating" value="good" onchange="displaynext(this.value)" />Bad</label>
+                <br>
+                <label><input type="radio" id="id_Rating" name="Rating" value="good"onchange="displaynext(this.value)" />Worst</label>
+                 <div id="goodsomething" style="display:none;">
+                  &nbsp;&nbsp;&nbsp;&nbsp;Please Specify the area where you faced the issue
+                  <br>
+              <!--admissiondiv starts-->
+                  &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AreaofIssue" name="AreaofIssue"  value="1" onchange="displayArea(this.value)"/>Admission</label>
+
+                <div id="admissiondiv" style="display: none;">
+                 <br>     
+                 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AdmissionIssue" name="AdmissionIssue"  value="1" onchange="displayAdmission(this.value)"/>No proper Explanation of admission procedure.
+                 </label>
+                 <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AdmissionIssue" name="AdmissionIssue"  value="2" onchange="displayAdmission(this.value)"/>No proper Hospitality.</label>
+                  
+                </div>
+                <hr style="width=3px;height=3px;"></hr>
+
+              <!--admissiondiv ends-->
+
+                  <br>
+              <!--nursediv starts-->
+                  &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AreaofIssue" name="AreaofIssue"  value="2" onchange="displayArea(this.value)"/>Nurse and care..
+                  </label>
+                
+
+                 <div id="nursediv" style="display: none;">
+                 <br>     
+                 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_NurseIssue" name="NurseIssue"  value="1" onchange="displayNurse(this.value)"/>No proper Response / Attentiveness to your queries/questions
+                 </label>
+                 <br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_NurseIssue" name="NurseIssue"  value="2" onchange="displayNurse(this.value)"/>No Timely Medication and Care</label>
+                 
+                  
+                </div>
+                 <hr style="width=3px;height=3px;"></hr>
+              <!--nursediv ends-->  
+
+                  <br>
+              <!--doctordiv starts-->
+                  &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox"  id="id_AreaofIssue" name="AreaofIssue"  value="3" onchange="displayArea(this.value)"/>Doctor
+                  </label>
+
+                  <div id="doctordiv" style="display: none">
+                  <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_DoctorIssue" name="DoctorIssue"  value="1" onchange="displayDoctor(this.value)"/>No Proper Explanation and condition of treatment</label>
+                 <br>
+                 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_DoctorIssue" name="DoctorIssue"  value="2" onchange="displayDoctor(this.value)"/>Doctor behavior is not Polite,Friendly</label>
+                 <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_DoctorIssue" name="DoctorIssue"  value="3" onchange="displayDoctor(this.value)"/>Doctor is not available when neccessary</label>
+                 <br>
+               </div>
+                <hr style="width=3px;height=3px;"></hr>
+
+              <!--doctordiv ends-->
+
+                  <br>
+                  <!--allotdiv starts-->
+                  &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox"  id="id_AreaofIssue" name="AreaofIssue"  value="4" onchange="displayArea(this.value)"/>Allotment
+                  </label><br>
+                  <br>
+                   <div id="allotdiv" style="display: none">
+                   &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AllotmentIssue" name="AllotmentIssue"  value="1" onchange="displayAllot(this.value)"/>No proper Allotment of room</label>
+                   <br>
+                   &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AllotmentIssue" name="AllotmentIssue"  value="2" onchange="displayAllot(this.value)"/>No proper Allotment of Beds</label>
+                   <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AllotmentIssue" name="AllotmentIssue"  value="3" onchange="displayAllot(this.value)"/>No proper Maintainance of Washrooms.</label>                    
+                 <br>
+               </div>
+                <hr style="width=3px;height=3px;"></hr>
+                  <!--allotdiv ends-->
+
+                  <!--dischargediv starts-->
+                  <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AreaofIssue" name="AreaofIssue"  value="5" onchange="displayArea(this.value)"/>Discharge procedure
+                    </label>
+                    <br><br>
+                     <div id="dischargediv" style="display: none">
+                       &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_DischargeIssue" name="DischargeIssue"  value="1" onchange="displayDischarge(this.value)"/>no clear instruction of medication</label>
+                    <br>
+                     &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_DischargeIssue" name="DischargeIssue"  value="2" onchange="displayDischarge(this.value)"/>delay in discharge process </label>
+                  <!--dischargediv ends-->
+                </div>
+                 <hr style="width=3px;height=3px;"></hr>
+                   <div id="Input" style="display:none;">
+                  &nbsp;&nbsp;&nbsp;&nbsp;Please Explain your issue Briefly
+                  <br>
+                  <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="text" id="id_explanation" name="explanation" placeholder="Enter Here" /></label>  
+                  </div>
+                 <br/><br/>
+                 <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                  Submit
+                </button>
+              
+              </form>
+          </div>
+          
+      </div>
+
+<script>
+   function displaynext(answer)
+  {
+
+  document.getElementById(answer + 'something').style.display = "block";
+    if (answer == "excellent")
+    { 
+      document.getElementById('good').style.display = "none";
+    }
+
+  }
+  
+  function displayArea(answer) 
+  {
+    document.getElementById('Input').style.display = "block";
+ 
+  }  
+ function displayAdmission(answer) 
+  {
+
+    document.getElementById(answer +'div').style.display = "block";
+
+}
+function displayNurse(answer) 
+  {
+
+    document.getElementById(answer +'div').style.display = "block";
+
+}
+function displayDoctor(answer) 
+  {
+
+    document.getElementById(answer +'div').style.display = "block";
+
+}
+function displayAllot(answer) 
+  {
+
+    document.getElementById(answer +'div').style.display = "block";
+
+}
+function displayDischarge(answer) 
+  {
+
+    document.getElementById(answer +'div').style.display = "block";
+
+}
+</script>      
+{% endblock %}
