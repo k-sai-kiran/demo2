@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .forms import PatientCreationForm,PatientUpdationForm,HODCreationForm,UserLoginForm
+from .forms import PatientCreationForm,PatientUpdationForm,HODCreationForm,UserLoginForm,INPatientUpdationForm
 from . models import Patient,HOD
 from django.http import HttpResponseRedirect,HttpResponse
 from django.urls import reverse
@@ -54,6 +54,8 @@ def login(request):
     return render(request,'Feedback/login.html',{'form':form})
 
 
+def askingpage(request):
+    return render(request,"Feedback/askingpage.html")
 
 
 def patientfeedback(request):
@@ -69,7 +71,7 @@ def patientfeedback(request):
                 return render(request,'Feedback/feedbackstart.html',{'form':form,'had_error':had_error})
             record=Patient(mobile_number=user)
             record.save()
-            return HttpResponseRedirect(reverse('Feedbackform'))         
+            return HttpResponseRedirect(reverse('askingpage'))         
         else:
             field_error="Please Check Your Fields"
             return render(request,'Feedback/feedbackstart.html',{'form':form,'field_error':field_error})
@@ -78,9 +80,11 @@ def patientfeedback(request):
     return render(request,'Feedback/feedbackstart.html',{'form':form})
 
 
+
+
 def IPDFeedbackForm(request):
     if request.method=='POST':
-        form=PatientUpdationForm(request.POST)
+        form=INPatientUpdationForm(request.POST)
         if form.is_valid():
             rating=form.cleaned_data['Rating']
             SorF=form.cleaned_data['sandf']
@@ -104,7 +108,7 @@ def IPDFeedbackForm(request):
             return render(request,'Feedback/IPDFeedbackform.html',{'form':form,'field_error':field_error})
 
     else:
-        form=PatientUpdationForm()
+        form=INPatientUpdationForm()
     
     return render(request,'Feedback/IPDFeedbackform.html',{'form':form})
 

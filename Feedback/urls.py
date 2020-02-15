@@ -13,5 +13,6 @@ urlpatterns = [
     path('login/',views.login,name="login"),
     path('logout/',views.logout,name="logout"),
     path('IPDFeedbackform/',views.IPDFeedbackForm,name="IPDFeedbackForm"),
+    path('askingpage/',views.askingpage,name="askingpage"),
     path('customeraudio/',views.customeraudio,name="customeraudio"),
 ]
