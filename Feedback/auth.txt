@@ -1,0 +1,4 @@
+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
+smtp.sendgrid.net
+465
+apikey

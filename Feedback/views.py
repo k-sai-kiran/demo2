@@ -1,10 +1,12 @@
 from django.shortcuts import render,redirect
-from .forms import PatientCreationForm,PatientUpdationForm,HODCreationForm,UserLoginForm,INPatientUpdationForm
-from . models import Patient,HOD
+from .forms import PatientCreationForm,PatientUpdationForm,HODCreationForm,UserLoginForm,INPatientUpdationForm,OTPVerifyForm
+from . models import Patient,HOD,PatientIN
 from django.http import HttpResponseRedirect,HttpResponse
 from django.urls import reverse
 from .sound_record import audiorec
 from scipy.io.wavfile import write
+from django.core.mail import send_mail
+import math,random
 #from django.generic.views import CreateView
 
 
@@ -58,20 +60,36 @@ def askingpage(request):
     return render(request,"Feedback/askingpage.html")
 
 
+
+
+
+
 def patientfeedback(request):
     if request.method=='POST':
         form=PatientCreationForm(request.POST)
         if form.is_valid():
+            digits="0123456789"
+            OTPcode=""
+            for i in range(4) : 
+                OTPcode += digits[math.floor(random.random() * 10)]
             user=form.cleaned_data['mobile_number']
             request.session['user_session']=user
             currentuser=request.session['user_session']
-            checks=Patient.objects.filter(mobile_number=currentuser)
-            if checks.exists():
+            checksOUT=Patient.objects.filter(mobile_number=currentuser)
+            checksIN=PatientIN.objects.filter(mobile_number=currentuser)
+            if checksOUT.exists():
                 had_error="You have already submitted the feedback"
                 return render(request,'Feedback/feedbackstart.html',{'form':form,'had_error':had_error})
-            record=Patient(mobile_number=user)
+            elif checksIN.exists():
+                had_error="You have already submitted the feedback"
+                return render(request,'Feedback/feedbackstart.html',{'form':form,'had_error':had_error})
+            record=Patient(mobile_number=user,otp=OTPcode)
             record.save()
-            return HttpResponseRedirect(reverse('askingpage'))         
+            send_mail('OTP for ESIC',
+            'Your One Time Password is'+OTPcode,
+            '',
+            [user])
+            return HttpResponseRedirect(reverse('verifyotp'))
         else:
             field_error="Please Check Your Fields"
             return render(request,'Feedback/feedbackstart.html',{'form':form,'field_error':field_error})
@@ -79,6 +97,110 @@ def patientfeedback(request):
         form=PatientCreationForm()
     return render(request,'Feedback/feedbackstart.html',{'form':form})
 
+def patientINfeedback(request):
+    if request.method=='POST':
+        form=PatientCreationForm(request.POST)
+        if form.is_valid():
+            digits="0123456789"
+            OTPcode=""
+            for i in range(4): 
+                OTPcode += digits[math.floor(random.random() * 10)]
+            user=form.cleaned_data['mobile_number']
+            request.session['user_session']=user
+            currentuser=request.session['user_session']
+            checksOUT=Patient.objects.filter(mobile_number=currentuser)
+            checksIN=PatientIN.objects.filter(mobile_number=currentuser)
+            if checksOUT.exists():
+                had_error="You have already submitted the feedback"
+                return render(request,'Feedback/feedbackinstart.html',{'form':form,'had_error':had_error})
+            elif checksIN.exists():
+                had_error="You have already submitted the feedback"
+                return render(request,'Feedback/feedbackinstart.html',{'form':form,'had_error':had_error})
+            record=PatientIN(mobile_number=user,otp=OTPcode)
+            record.save()
+            send_mail('OTP for ESIC',
+            'Your One Time Password is'+OTPcode,
+            '',
+            [user])
+            return HttpResponseRedirect(reverse('verifyotp'))
+        else:
+            field_error="Please Check Your Fields"
+            return render(request,'Feedback/feedbackinstart.html',{'form':form,'field_error':field_error})
+    else:
+        form=PatientCreationForm()
+    return render(request,'Feedback/feedbackinstart.html',{'form':form})
+
+
+
+
+'''def otpgen(request):
+    if request.method=="POST":
+        form=OTPForm(request.POST)
+        if form.is_valid():
+            digits="0123456789"
+            OTPcode=""
+            for i in range(4) : 
+                OTPcode += digits[math.floor(random.random() * 10)] 
+            emailid=form.cleaned_data['email_id']
+            request.session['otp_sess']=emailid
+            record=testing(email_id=emailid,otp=OTPcode)
+            record.save()
+            send_mail('OTP for ESIC',
+            'Your One Time Password is'+OTPcode,
+            '',
+            [emailid])
+            return HttpResponseRedirect(reverse('verifyotp'))
+
+        else:
+            field_error="Invalid Field"
+            return render(request,'Feedback/otp.html',{'form':form,'field_error':field_error})
+
+    else:
+        form=OTPForm()
+        return render(request,'Feedback/otp.html')'''
+
+
+def verifyotp(request):
+    if request.method=="POST":
+        form=OTPVerifyForm(request.POST)
+        if form.is_valid():
+            otpsubm=form.cleaned_data['otp']
+            currentuser=request.session['user_session']
+            actual=Patient.objects.filter(mobile_number=currentuser,otp=otpsubm)
+            actualin=PatientIN.objects.filter(mobile_number=currentuser,otp=otpsubm)
+            if actual.exists():
+                return HttpResponseRedirect(reverse('Feedbackform'))
+            elif actualin.exists():
+                return HttpResponseRedirect(reverse('IPDFeedbackForm'))
+            else:
+                error_msg="Incorrect OTP"
+                return render(request,"Feedback/otpverify.html",{'form':form, 'error_msg':error_msg})
+        else:
+            error_msg = "Invalid Details"
+            return render(request,"Feedback/otpverify.html",{'form':form, 'error_msg':error_msg})
+    else:
+        form=OTPVerifyForm()
+        return render(request,"Feedback/otpverify.html",{'form':form})
+
+'''def verifyotpIN(request):
+    if request.method=="POST":
+        form=OTPVerifyForm(request.POST)
+        if form.is_valid():
+            otpsubm=form.cleaned_data['otp']
+            currentuser=request.session['user_session']
+            actual=PatientIN.objects.filter(mobile_number=currentuser,otp=otpsubm)
+            if actual.exists():
+                actual.delete()
+                return HttpResponseRedirect(reverse('IPDFeedbackForm'))
+            else:
+                error_msg="Incorrect OTP"
+                return render(request,"Feedback/otpverifyin.html",{'form':form, 'error_msg':error_msg})
+        else:
+            error_msg = "Invalid Details"
+            return render(request,"Feedback/otpverifyin.html",{'form':form, 'error_msg':error_msg})
+    else:
+        form=OTPVerifyForm()
+        return render(request,"Feedback/otpverifyin.html",{'form':form})'''
 
 
 
@@ -97,12 +219,13 @@ def IPDFeedbackForm(request):
             disch=form.cleaned_data['DischargeIssue']
             Explanation=form.cleaned_data['explanation']
             currentuser=request.session['user_session']
-            record=Patient.objects.filter(mobile_number=currentuser).update(Rating=rating,sandf=SorF,department=Dep,AreaofIssue=aoi,AdmissionIssue=admis,NurseIssue=nursis,DoctorIssue=doctis,AllotmentIssue=allotis,DischargeIssue=disch,explanation=Explanation)
+            record=PatientIN.objects.filter(mobile_number=currentuser).update(Rating=rating,sandf=SorF,department=Dep,AreaofIssue=aoi,AdmissionIssue=admis,NurseIssue=nursis,DoctorIssue=doctis,AllotmentIssue=allotis,DischargeIssue=disch,explanation=Explanation)
+            record.save()
             try:
                 del request.session['user_session']
             except KeyError:
                 pass
-            return HttpResponseRedirect(reverse('homepage'))         
+            return HttpResponseRedirect(reverse('patientfeedback'))         
         else:
             field_error="Please Check Your Fields"
             return render(request,'Feedback/IPDFeedbackform.html',{'form':form,'field_error':field_error})
@@ -122,14 +245,20 @@ def Feedbackform(request):
             SorF=form.cleaned_data['sandf']
             Dep=form.cleaned_data['department']
             aoi=form.cleaned_data['AreaofIssue']
+            hyg=form.cleaned_data['Hygiene']
+            docb=form.cleaned_data['DoctorBehaviour']
+            waT=form.cleaned_data['WaitingTime']
+            phar=form.cleaned_data['Pharmacy']
+            nurse=form.cleaned_data['Nurse']
             Explanation=form.cleaned_data['explanation']
             currentuser=request.session['user_session']
-            record=Patient.objects.filter(mobile_number=currentuser).update(Rating=rating,sandf=SorF,department=Dep,AreaofIssue=aoi,explanation=Explanation)
+            record=Patient.objects.filter(mobile_number=currentuser).update(Rating=rating,sandf=SorF,department=Dep,AreaofIssue=aoi,Hygiene=hyg,DoctorBehaviour=docb,WaitingTime=waT,Pharmacy=phar,Nurse=nurse,explanation=Explanation)
+            record.save()
             try:
                 del request.session['user_session']
             except KeyError:
                 pass
-            return HttpResponseRedirect(reverse('homepage'))         
+            return HttpResponseRedirect(reverse('patientfeedback'))         
         else:
             field_error="Please Check Your Fields"
             return render(request,'Feedback/Feedbackform.html',{'form':form,'field_error':field_error})
@@ -140,18 +269,6 @@ def Feedbackform(request):
     return render(request,'Feedback/Feedbackform.html',{'form':form})
 
 
-def customeraudio(request):
-    currentuser=request.session["user_session"]
-    soundobj=Patient.objects.filter(mobile_number=currentuser)
-    if(soundobj.exists()):
-        b=audiorec()
-        rec = b.recordaudio()
-        write(currentuser+".mp3",b.fs,rec)
-        soundobj=Patient.objects.filter(mobile_number=currentuser).update(recording="1")
-        
-    else:
-        return HttpResponseRedirect(reverse('Feedbackform'))
-    return HttpResponseRedirect(reverse('Feedbackform'))
 
     
 
