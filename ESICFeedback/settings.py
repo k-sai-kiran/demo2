@@ -22,10 +22,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '^h#mh3*0i5532bt7ug-(cxruq7q3ukpl9=ystlxp=b=_!!%hq4'
 
+NORECAPTCHA_SITE_KEY  = '6LfCS9kUAAAAAMa0VzzJWWImOJqxHWwiSkL7iPvp'
+NORECAPTCHA_SECRET_KEY = '6LfCS9kUAAAAAMhf6Ha0s3nM53LM-s6zkAePUyuQ'
+NORECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
+NORECAPTCHA_WIDGET_TEMPLATE = 'nocaptcha_recaptcha/widget.html'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = ['192.168.20.128']
+ALLOWED_HOSTS = ['192.168.20.128','127.0.0.1']
 
 
 # Application definition

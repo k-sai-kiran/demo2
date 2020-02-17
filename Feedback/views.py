@@ -22,8 +22,8 @@ def patientcomplaints(request):
 
 def patientINcomplaints(request):
     currentuser=request.session['user_session']
-    in_Minister=PatientIN.objects.filter(email=currentuser)
-    in_HOD=PatientIN.objects.filter(email=currentuser)
+    in_Minister=Minister.objects.filter(email=currentuser)
+    in_HOD=HOD.objects.filter(email=currentuser)
     if(in_Minister.exists()):
         patientlist=PatientIN.objects.filter(Status="2")
     elif(in_HOD.exists()):
@@ -42,6 +42,21 @@ def change2(request,patient_id):
     patient_el.save()
     return HttpResponseRedirect(reverse('patientINcomplaints'))
 
+
+def forward(request,patient_id):
+    patient_el=Patient.objects.get(mobile_number=patient_id)
+    patient_el.Status="2"
+    patient_el.save()
+    return HttpResponseRedirect(reverse('patientcomplaints'))
+
+def forward2(request,patient_id):
+    patient_el=PatientIN.objects.get(mobile_number=patient_id)
+    patient_el.Status="2"
+    patient_el.save()
+    return HttpResponseRedirect(reverse('patientINcomplaints'))
+
+
+
 def dashboard(request):
     values=len(Patient.objects.filter(AreaofIssue="hygiene"))
     values1=len(Patient.objects.filter(AreaofIssue="doctor"))
@@ -55,6 +70,9 @@ def dashboard(request):
     values9=len(PatientIN.objects.filter(AreaofIssue="discharge"))
     return render(request,'Feedback/dashboard.html',{'values':values,'values1':values1,'values2':values2,'values3':values3,'values4':values4,'values5':values5,'values6':values6,'values7':values7,'values8':values8,'values9':values})
 
+
+def thankyou(request):
+    return render(request,'Feedback/thankyou.html')
 
 def addHOD(request):
     if request.method=='POST':
@@ -235,7 +253,7 @@ def IPDFeedbackForm(request):
                 del request.session['user_session']
             except KeyError:    
                 pass
-            return HttpResponseRedirect(reverse('askingpage'))         
+            return HttpResponseRedirect(reverse('thankyou'))         
         else:
             field_error="Please Check Your Fields"
             return render(request,'Feedback/IPDFeedbackform.html',{'form':form,'field_error':field_error})
@@ -268,7 +286,7 @@ def Feedbackform(request):
                 del request.session['user_session']
             except KeyError:
                 pass
-            return HttpResponseRedirect(reverse('askingpage'))         
+            return HttpResponseRedirect(reverse('thankyou'))         
         else:
             field_error="Please Check Your Fields"
             return render(request,'Feedback/Feedbackform.html',{'form':form,'field_error':field_error})

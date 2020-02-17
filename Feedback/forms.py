@@ -1,5 +1,6 @@
 from django import forms
 from .import models
+from nocaptcha_recaptcha.fields import NoReCaptchaField
 
 
 class PatientUpdationForm(forms.Form):
@@ -28,6 +29,8 @@ class INPatientUpdationForm(forms.Form):
 
 class PatientCreationForm(forms.Form):
     mobile_number=forms.CharField()
+    captcha = NoReCaptchaField(gtag_attrs={'data-theme':'dark'})
+
 
 
 class AdminCreationForm(forms.Form):
