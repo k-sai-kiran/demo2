@@ -30,9 +30,11 @@ class PatientCreationForm(forms.Form):
     mobile_number=forms.CharField()
 
 
-class HODCreationForm(forms.Form):
+class AdminCreationForm(forms.Form):
     email=forms.CharField()
     password=forms.CharField()
+    
+
 
 class UserLoginForm(forms.Form):
     email=forms.CharField()

@@ -11,7 +11,6 @@
   
   <title>
     {% block title %}
-    Feedback
     {% endblock %}
   </title>
   <style>
@@ -36,7 +35,6 @@
     </style>
   <!-- Custom fonts for this template-->
 {% load static %}
-
   <link href="{% static 'Feedback/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
@@ -208,7 +206,54 @@
     </li>
 
     <!-- Nav Item - Alerts -->
-    
+    <li class="nav-item dropdown no-arrow mx-1">
+      <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-bell fa-fw"></i>
+        <!-- Counter - Alerts -->
+        <span class="badge badge-danger badge-counter">3+</span>
+      </a>
+      <!-- Dropdown - Alerts -->
+      <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+        <h6 class="dropdown-header">
+          Alerts Center
+        </h6>
+        <a class="dropdown-item d-flex align-items-center" href="#">
+          <div class="mr-3">
+            <div class="icon-circle bg-primary">
+              <i class="fas fa-file-alt text-white"></i>
+            </div>
+          </div>
+          <div>
+            <div class="small text-gray-500">December 12, 2019</div>
+            <span class="font-weight-bold">A new monthly report is ready to download!</span>
+          </div>
+        </a>
+        <a class="dropdown-item d-flex align-items-center" href="#">
+          <div class="mr-3">
+            <div class="icon-circle bg-success">
+              <i class="fas fa-donate text-white"></i>
+            </div>
+          </div>
+          <div>
+            <div class="small text-gray-500">December 7, 2019</div>
+            $290.29 has been deposited into your account!
+          </div>
+        </a>
+        <a class="dropdown-item d-flex align-items-center" href="#">
+          <div class="mr-3">
+            <div class="icon-circle bg-warning">
+              <i class="fas fa-exclamation-triangle text-white"></i>
+            </div>
+          </div>
+          <div>
+            <div class="small text-gray-500">December 2, 2019</div>
+            Spending Alert: We've noticed unusually high spending for your account.
+          </div>
+        </a>
+        <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+      </div>
+    </li>
+
     <!-- Nav Item - Messages -->
     
 
@@ -248,42 +293,8 @@
 
 </nav>
 <!-- End of Topbar -->
-
-<!-- Begin Page Content -->
-<div class="container-fluid">
-
-    <!-- Page Heading -->
-    <div class= "d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">Visualization</h1>
-  <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
-    </div>
-    <!-- Content Row -->
-
-    <div class="row">
-      <!-- Area Chart -->
-      <!--<div class="col-xl-7 col-lg-7">
-        <div class="card shadow mb-4">
-           Card Header - Dropdown 
-          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">No of complaints Vs Department</h6>-->
-
-            
-          
-          
-          <!-- Card Body -->
-          {% load static %}
-          <br>
-          <div class="card-body" >
-            <div id="piechart"></div>
-          </div>
-
-          <div class="card-body" >
-            <div id="piechart2"></div>
-          </div>
-        </div>
-        
-      </div>
-
+{% block body %}
+{% endblock %}
 
         </div>
         <!-- End of Main content-->
@@ -336,56 +347,9 @@
   <!-- Page level custom scripts -->
   <script src="{% static 'Feedback/js/demo/chart-area-demo.js' %}"></script>
   <script src="{% static 'Feedback/js/demo/datatables-demo.js' %}"></script>
-  <!--<script src="{% static 'Feedback/js/demo/chart-bar-demo.js' %}"></script>-->
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
-    // Load google charts
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-    
-    // Draw the chart and set the chart values
-    function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-      ['Task', 'Hours per Day'],
-      ['Hygiene', {{ values }}],
-      ['DoctorBehaviour', {{ values1}}],
-      ['Pharmacy', {{ values2 }}],
-      ['Nurse', {{ values3 }}],
-      ['WaitingTime', {{ values4 }}]
-    ]);
-    
-      // Optional; add a title and set the width and height of the chart
-      var options = {'title':'No of complaints(OUT patients)', 'width':550, 'height':400};
-    
-      // Display the chart inside the <div> element with id="piechart"
-      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-      chart.draw(data, options);
-    }
-    </script>
- <script type="text/javascript">
-  // Load google charts
-  google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
-  
-  // Draw the chart and set the chart values
-  function drawChart() {
-    var data = google.visualization.arrayToDataTable([
-    ['Task', 'Hours per Day'],
-    ['admission', {{ values5 }}],
-    ['nurse', {{values6}}],
-    ['doctor', {{values7}}],
-    ['allot', {{values8}}],
-    ['discharge', {{values9}}]
-  ]);
-  
-    // Optional; add a title and set the width and height of the chart
-    var options = {'title':'No of complaints(IN Patients)', 'width':550, 'height':400};
-  
-    // Display the chart inside the <div> element with id="piechart"
-    var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
-    chart.draw(data, options);
-  }
-  </script>
+  <script src="{% static 'Feedback/js/demo/chart-bar-demo.js' %}"></script>
+
+
 
 </body>
 

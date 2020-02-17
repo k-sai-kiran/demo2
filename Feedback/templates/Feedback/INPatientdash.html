@@ -1,0 +1,70 @@
+{% extends 'Feedback/base2.html' %}
+{% block title %}
+Inpatient Issues
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Unsolved In Patient Issues</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Search for Members,Books,Book No etc.,</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Patient Email ID</th>
+                <th>Rating</th>
+                <th>Self/Family</th>
+                <th>Department</th>
+                <th>Issue In</th>
+                <th>Click If Solved</th>                
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Patient Email ID</th>
+                <th>Rating</th>
+                <th>Self/Family</th>
+                <th>Department</th>
+                <th>Issue In</th>
+                <th>Click If Solved</th>
+              </tr>
+            </tfoot>
+            <tbody>
+            
+             {% for patient in patientlist %}
+              <tr>
+                <td>{{ patient.mobile_number }}</td>
+                <td>{{ patient.Rating }}</td>
+                <td>{{ patient.sandf }}</td>
+                <td>{{ patient.department }}</td>
+                <td>{{ patient.AreaofIssue }}</td>
+                <td>
+                <a href="{% url 'change2' patient.mobile_number %}" class="btn btn-success btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-check"></i>
+                    </span>
+                    <span class="text">Click</span>
+                </a>
+                </td>
+              </tr>
+             {% endfor %}
+            
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.container-fluid -->
+
+</div>
+{% endblock %}
