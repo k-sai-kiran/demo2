@@ -22,6 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '^h#mh3*0i5532bt7ug-(cxruq7q3ukpl9=ystlxp=b=_!!%hq4'
 
+NORECAPTCHA_SITE_KEY  = '6LfCS9kUAAAAAMa0VzzJWWImOJqxHWwiSkL7iPvp'
+NORECAPTCHA_SECRET_KEY = '6LfCS9kUAAAAAMhf6Ha0s3nM53LM-s6zkAePUyuQ'
+NORECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
+NORECAPTCHA_WIDGET_TEMPLATE = 'nocaptcha_recaptcha/widget.html'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -38,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'nocaptcha_recaptcha'
 ]
 
 MIDDLEWARE = [
@@ -119,7 +125,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-EMAIL_HOST_PASSWORD = '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'
+EMAIL_HOST_PASSWORD = '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'
 EMAIL_HOST_USER = 'apikey'
 EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.sendgrid.net'

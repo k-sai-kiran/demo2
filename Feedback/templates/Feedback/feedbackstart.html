@@ -3,7 +3,6 @@
 Feedback
 {% endblock %}
 
-
 {% block body %}
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -50,8 +49,10 @@ Feedback
                  <br>
                  <input type="email" id="id_mobile_number"  name="mobile_number" placeholder="Enter Your email address">
                  <br>
+                 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                 <div class="g-recaptcha" data-sitekey="6LfCS9kUAAAAAMa0VzzJWWImOJqxHWwiSkL7iPvp"></div>
                  <br>
-                 <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                 <button type="submit" id ="random" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                   Continue
                  </button>
               
