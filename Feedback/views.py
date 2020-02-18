@@ -3,32 +3,44 @@ from .forms import PatientCreationForm,PatientUpdationForm,AdminCreationForm,Use
 from . models import Patient,HOD,PatientIN,Minister
 from django.http import HttpResponseRedirect,HttpResponse
 from django.urls import reverse
-from .sound_record import audiorec
-from scipy.io.wavfile import write
 from django.core.mail import send_mail
 import math,random
 #from django.generic.views import CreateView
+from django.views.generic import View
+
+
+
+def homepage(request):
+    return render(request,'Feedback/index2.html')
+
 
 
 def patientcomplaints(request):
-    currentuser=request.session['user_session']
-    in_Minister=Minister.objects.filter(email=currentuser)
-    in_HOD=HOD.objects.filter(email=currentuser)
-    if in_Minister.exists():
-        patientlist=Patient.objects.filter(Status="2")
-    elif in_HOD.exists():
-        patientlist=Patient.objects.filter(Status="0")
-    return render(request,"Feedback/OUTPatientdash.html",{'patientlist':patientlist})
+    if request.session.get('user_session',None):
+        currentuser=request.session['user_session']
+        in_Minister=Minister.objects.filter(email=currentuser)
+        in_HOD=HOD.objects.filter(email=currentuser)
+        if in_Minister.exists():
+            patientlist=Patient.objects.filter(Status="2")
+        elif in_HOD.exists():
+            patientlist=Patient.objects.filter(Status="0")
+        return render(request,"Feedback/OUTPatientdash.html",{'patientlist':patientlist})
+    else:
+        return render(request,"Feedback/login.html")
 
 def patientINcomplaints(request):
-    currentuser=request.session['user_session']
-    in_Minister=Minister.objects.filter(email=currentuser)
-    in_HOD=HOD.objects.filter(email=currentuser)
-    if(in_Minister.exists()):
-        patientlist=PatientIN.objects.filter(Status="2")
-    elif(in_HOD.exists()):
-        patientlist=PatientIN.objects.filter(Status="0")
-    return render(request,"Feedback/INPatientdash.html",{'patientlist':patientlist})
+    if request.session.get('user_session',None):
+        currentuser=request.session['user_session']
+        in_Minister=Minister.objects.filter(email=currentuser)
+        in_HOD=HOD.objects.filter(email=currentuser)
+        if(in_Minister.exists()):
+            patientlist=PatientIN.objects.filter(Status="2")
+        elif(in_HOD.exists()):
+            patientlist=PatientIN.objects.filter(Status="0")
+        
+        return render(request,"Feedback/INPatientdash.html",{'patientlist':patientlist})
+    else:
+        return render(request,"Feedback/login.html")
 
 def change(request,patient_id):
     patient_el=Patient.objects.get(mobile_number=patient_id)
@@ -303,7 +315,7 @@ def Feedbackform(request):
 
 def logout(request):
     try:
-        del request.session['admin_ses']
+        del request.session['user_session']
     except KeyError:
         pass
     return HttpResponseRedirect(reverse('login'))

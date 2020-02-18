@@ -5,6 +5,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
+    path('',views.homepage,name="homepage"),
     path('patientcomplaints/',views.patientcomplaints,name="patientcomplaints"),
     path('patientINcomplaints/',views.patientINcomplaints,name="patientINcomplaints"),
     path('Feedbackform/',views.Feedbackform,name="Feedbackform"),

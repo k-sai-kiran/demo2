@@ -9,11 +9,18 @@
   <meta name="description" content="">
   <meta name="author" content="">
   
+
   <title>
     {% block title %}
     {% endblock %}
   </title>
   <style>
+    
+    /* change player background color */
+    #myAudio {
+        background-color: #9FD6BA;
+    }
+
     * {box-sizing: border-box}
     
     .container {
@@ -348,8 +355,7 @@
   <script src="{% static 'Feedback/js/demo/chart-area-demo.js' %}"></script>
   <script src="{% static 'Feedback/js/demo/datatables-demo.js' %}"></script>
   <script src="{% static 'Feedback/js/demo/chart-bar-demo.js' %}"></script>
-
-
+  
 
 </body>
 
