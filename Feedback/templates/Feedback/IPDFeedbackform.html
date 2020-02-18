@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Feedback Form</title>
+
+  <!-- Custom fonts for this template-->
+  {% load static %}
+  <link href="{% static 'Feedback/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'Feedback/css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+
+  <div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-6 col-lg-12 col-md-3">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              
+              <div class="col-lg-12">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Please provide your Feedback</h1>
+                  </div>
+                  <form  method="POST" class="user" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <p style="color: red;">{{ field_error }}</p>
+                    <p style="color: red;">{{ currentuser }}</p>
+    
+                    <strong>Self Or Family</strong>
+                    <select id="id_sandf" name="sandf">
+                       <option value="Self">Self</option>
+                       <option value="Family">Family</option>
+                       
+                    </select>
+                    <br>
+                    <br>
+                    <strong>select Department</strong>
+                    <select id="id_department" name="department">
+                       <option value="General">General</option>
+                       <option value="Cardiology">Cardiology</option>
+                       <option value="Orthology">Orthology</option>
+                       <option value="Neurology">Neurology</option>
+                       <option value="Opthomology">Opthomology</option>
+    
+                    </select>
+                    <br><br>
+                    <label><input type="radio" id="id_Rating" name="Rating"  value="excellent" onchange="displaynext(this.value)"/>Excellent</label>
+                    <br>
+                    <label><input type="radio" id="id_Rating" name="Rating" value="good" onchange="displaynext(this.value)" />Good</label>
+                    <br>
+                    <label><input type="radio" id="id_Rating" name="Rating" value="good" onchange="displaynext(this.value)" />Average</label>
+                    <br>
+                    <label><input type="radio" id="id_Rating" name="Rating" value="good" onchange="displaynext(this.value)" />Bad</label>
+                    <br>
+                    <label><input type="radio" id="id_Rating" name="Rating" value="good"onchange="displaynext(this.value)" />Worst</label>
+                  <div id="goodsomething" style="display:none;">
+                      &nbsp;&nbsp;&nbsp;&nbsp;Please Specify the area where you faced the issue
+                      <br>
+                  <!--admissiondiv starts-->
+                      &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AreaofIssue" name="AreaofIssue"  value="admission" onchange="displayAdmission(this.value)"/>Admission</label>
+
+                      <div id="admissiondiv" style="display: none;">
+                     <br>     
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AdmissionIssue" name="AdmissionIssue"  value="No proper explanation of procedure" />No proper Explanation of admission procedure.
+                     </label>
+                     <br>
+                      &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AdmissionIssue" name="AdmissionIssue"  value="No proper Hospitality." />No proper Hospitality.</label>
+                      
+                     </div>
+                    <hr style="width=3px;height=3px;"></hr>
+    
+                  <!--admissiondiv ends-->
+    
+                      <br>
+                  <!--nursediv starts-->
+                      &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AreaofIssue" name="AreaofIssue"  value="nurse" onchange="displayNurse(this.value)"/>Nurse and care..
+                      </label>
+                    
+    
+                     <div id="nursediv" style="display: none;">
+                     <br>     
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_NurseIssue" name="NurseIssue"  value="No proper Response / Attentiveness to your queries/questions"/>No proper Response / Attentiveness to your queries/questions</label>
+                     
+                     <br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_NurseIssue" name="NurseIssue"  value="No Timely Medication and Care" />No Timely Medication and Care</label> 
+                    </div>
+                     <hr style="width=3px;height=3px;"></hr>
+                  <!--nursediv ends-->  
+                      <br>
+                  <!--doctordiv starts-->
+                      &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox"  id="id_AreaofIssue" name="AreaofIssue"  value="doctor" onchange="displayDoctor(this.value)"/>Doctor
+                      </label>
+    
+                      <div id="doctordiv" style="display: none">
+                      <br>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_DoctorIssue" name="DoctorIssue"  value="No Proper Explanation and condition of treatment"/>No Proper Explanation and condition of treatment</label>
+                     <br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_DoctorIssue" name="DoctorIssue"  value="Doctor behavior is not Polite,Friendly"/>Doctor behavior is not Polite,Friendly</label>
+                     <br>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_DoctorIssue" name="DoctorIssue"  value="Doctor not available" />Doctor not available</label>
+                     <br>
+                   </div>
+                    <hr style="width=3px;height=3px;"></hr>
+    
+                  <!--doctordiv ends-->
+    
+                      <br>
+                      <!--allotdiv starts-->
+                      &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox"  id="id_AreaofIssue" name="AreaofIssue"  value="allot" onchange="displayAllot(this.value)"/>Allotment
+                      </label><br>
+                      <br>
+                       <div id="allotdiv" style="display: none">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AllotmentIssue" name="AllotmentIssue"  value="1" />No proper Allotment of room</label>
+                       <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AllotmentIssue" name="AllotmentIssue"  value="2" />No proper Allotment of Beds</label>
+                       <br>
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AllotmentIssue" name="AllotmentIssue"  value="3" />No proper Maintainance of Washrooms.</label>                    
+                     <br>
+                   </div>
+                    <hr style="width=3px;height=3px;"></hr>
+                      <!--allotdiv ends-->
+    
+                      <!--dischargediv starts-->
+                      <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_AreaofIssue" name="AreaofIssue"  value="discharge" onchange="displayDischarge(this.value)"/>Discharge procedure
+                        </label>
+                        <br><br>
+                         <div id="dischargediv" style="display: none">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_DischargeIssue" name="DischargeIssue"  value="no clear instruction of medication" />no clear instruction of medication</label>
+                        <br>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" id="id_DischargeIssue" name="DischargeIssue"  value="delay in discharge process" />delay in discharge process </label>
+                      <!--dischargediv ends-->
+                    </div>
+                     <hr style="width=3px;height=3px;"></hr>
+                       <div id="Input" style="display:none;">
+                      &nbsp;&nbsp;&nbsp;&nbsp;Please Explain your issue Briefly
+                      <br>
+                      <br>
+                    <label><textarea rows=3 cols=35 id="id_explanation" name="explanation" placeholder="Enter Here" ></textarea></label>  
+                      </div>
+                     <br/><br/>
+                     <button type="submit" class="btn btn-primary btn-user btn-block">
+                      Submit
+                    </button>
+                  
+                  </form>
+
+
+
+
+                  <hr>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+    function displaynext(answer)
+   {
+ 
+   document.getElementById(answer + 'something').style.display = "block";
+   document.getElementById('Input').style.display = "block";
+     if (answer == "excellent")
+     { 
+       document.getElementById('good').style.display = "none";
+     }
+ 
+   }
+   
+   function displayArea(answer) 
+   {
+     document.getElementById('Input').style.display = "block";
+  
+   }  
+  function displayAdmission(answer) 
+   {
+ 
+     document.getElementById(answer+"div").style.display = "block";
+
+ 
+  }
+ function displayNurse(answer) 
+   {
+ 
+     document.getElementById(answer+"div").style.display = "block";
+
+ 
+ }
+ function displayDoctor(answer) 
+   {
+ 
+     document.getElementById(answer+"div").style.display = "block";
+
+ 
+ }
+ function displayAllot(answer) 
+   {
+ 
+     document.getElementById(answer+"div").style.display = "block";
+
+ 
+ }
+ function displayDischarge(answer) 
+   {
+ 
+     document.getElementById(answer+"div").style.display = "block";
+     
+
+ 
+ }
+ </script>
+ 
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'Feedback/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'Feedback/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'Feedback/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'Feedback/js/sb-admin-2.min.js' %}"></script>
+
+</body>
+
+</html>
