@@ -1,8 +1,12 @@
 from django.db import models
 
 class Patient(models.Model):
+<<<<<<< HEAD
     mobile_number=models.CharField(max_length=100,null=True,default="0")
     ip_number=models.CharField(max_length=101,null=True,default="0")
+=======
+    mobile_number=models.CharField(max_length=100,primary_key=True,null=False,default=0)
+>>>>>>> 01b223460a761091531d1b4af2d88e5599152d32
     Rating=models.CharField(max_length=10,null=True,default=None,blank=True)
     sandf=models.CharField(max_length=50,null=True,default=None,blank=False)
     department=models.CharField(max_length=50,null=True,default=None,blank=False)
@@ -20,8 +24,12 @@ class Patient(models.Model):
         return self.mobile_number
 
 class PatientIN(models.Model):
+<<<<<<< HEAD
     mobile_number=models.CharField(max_length=100,null=False,default="0")
     ip_number=models.CharField(max_length=101,null=False,default="0")
+=======
+    mobile_number=models.CharField(max_length=100,primary_key=True,null=False,default=0)
+>>>>>>> 01b223460a761091531d1b4af2d88e5599152d32
     Rating=models.CharField(max_length=10,null=True,default=None,blank=True)
     sandf=models.CharField(max_length=50,null=True,default=None,blank=False)
     department=models.CharField(max_length=50,null=True,default=None,blank=False)
