@@ -11,11 +11,15 @@ from django.views.generic import View
 
 
 def homepage(request):
+<<<<<<< HEAD
     totalfeedbacks=(len(Patient.objects.all())+len(PatientIN.objects.all()))
     solvedissues=(len(Patient.objects.filter(Status="1"))+len(PatientIN.objects.filter(Status="1")))  
     unsolvedissues=(len(Patient.objects.filter(Status="3"))+len(PatientIN.objects.filter(Status="3")))
     pendingissues=totalfeedbacks-solvedissues-unsolvedissues
     return render(request,'Feedback/index2.html',{'totalfeedbacks':totalfeedbacks,'solvedissues':solvedissues,'pendingissues':pendingissues,'unsolvedissues':unsolvedissues})
+=======
+    return render(request,'Feedback/index2.html')
+>>>>>>> 01b223460a761091531d1b4af2d88e5599152d32
 
 
 
@@ -124,7 +128,11 @@ def addMinister(request):
         form=AdminCreationForm()
     return render(request,'Feedback/MinisterSignUp.html',{'form':form})
 
+<<<<<<< HEAD
 def login(request): 
+=======
+def login(request):
+>>>>>>> 01b223460a761091531d1b4af2d88e5599152d32
     if request.method=='POST':
         form=UserLoginForm(request.POST)
         if form.is_valid():
@@ -165,11 +173,26 @@ def patientfeedback(request):
             for i in range(4) : 
                 OTPcode += digits[math.floor(random.random() * 10)]
             user=form.cleaned_data['mobile_number']
+<<<<<<< HEAD
             ip=form.cleaned_data['ip_number']
             request.session['user_session']=user
             currentuser=request.session['user_session']
             record=Patient(mobile_number=user,otp=OTPcode,ip_number=ip)
             record.save()   
+=======
+            request.session['user_session']=user
+            currentuser=request.session['user_session']
+            checksOUT=Patient.objects.filter(mobile_number=currentuser)
+            checksIN=PatientIN.objects.filter(mobile_number=currentuser)
+            if checksOUT.exists():
+                had_error="You have already submitted the feedback"
+                return render(request,'Feedback/feedbackstart.html',{'form':form,'had_error':had_error})
+            elif checksIN.exists():
+                had_error="You have already submitted the feedback"
+                return render(request,'Feedback/feedbackstart.html',{'form':form,'had_error':had_error})
+            record=Patient(mobile_number=user,otp=OTPcode)
+            record.save()
+>>>>>>> 01b223460a761091531d1b4af2d88e5599152d32
             send_mail('OTP for ESIC',
             'Your One Time Password is'+OTPcode,
             '',

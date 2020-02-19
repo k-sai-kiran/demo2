@@ -31,7 +31,10 @@ class INPatientUpdationForm(forms.Form):
 
 class PatientCreationForm(forms.Form):
     mobile_number=forms.CharField()
+<<<<<<< HEAD
     ip_number=forms.CharField()
+=======
+>>>>>>> 01b223460a761091531d1b4af2d88e5599152d32
     captcha = NoReCaptchaField(gtag_attrs={'data-theme':'dark'})
 
 
